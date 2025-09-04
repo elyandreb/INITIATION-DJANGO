@@ -22,3 +22,26 @@ class Produit(models.Model):
 
     def __str__(self):
         return self.intituleProd
+
+class Rayon(models.Model):
+    idRay = models.AutoField(primary_key=True)
+    nomRay = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.nomRay
+
+class Contenir(models.Model):
+    idCont = models.AutoField(primary_key=True)
+    produit = models.ForeignKey(
+        Produit,
+        on_delete=models.CASCADE,
+        related_name="rayons"
+    )
+    rayon = models.ForeignKey(
+        Rayon,
+        on_delete=models.CASCADE,
+        related_name="produits"
+    )
+
+    def __str__(self):
+        return f"{self.produit.intituleProd} dans {self.rayon.nomRay}"
