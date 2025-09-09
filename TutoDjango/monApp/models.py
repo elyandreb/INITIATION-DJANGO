@@ -6,6 +6,10 @@ class Categorie(models.Model):
 
     def __str__(self):
         return self.nomCat
+    
+class Statut(models.Model):
+    idStatut = models.AutoField(primary_key=True)
+    libelle = models.CharField(max_length=100)
 
 class Produit(models.Model):
     refProd = models.AutoField(primary_key=True)
@@ -21,6 +25,13 @@ class Produit(models.Model):
         blank=True
     )
     date_fabrication = models.DateField(null=True, blank=True)
+
+    statut = models.ForeignKey(
+        Statut,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )
 
     def __str__(self):
         return self.intituleProd
@@ -47,6 +58,3 @@ class Contenir(models.Model):
     def __str__(self):
         return f"{self.produit.intituleProd} dans {self.rayon.nomRay} (Quantité: {self.quantite})"
 
-class Statut(models.Model):
-    idStatut = models.AutoField(primary_key=True)
-    libelle = models.CharField(max_length=100)
