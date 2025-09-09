@@ -31,17 +31,16 @@ class Rayon(models.Model):
         return self.nomRay
 
 class Contenir(models.Model):
-    idCont = models.AutoField(primary_key=True)
+    pk = models.CompositePrimaryKey("produit", "rayon")
     produit = models.ForeignKey(
         Produit,
-        on_delete=models.CASCADE,
-        related_name="rayons"
+        on_delete=models.CASCADE
     )
     rayon = models.ForeignKey(
         Rayon,
-        on_delete=models.CASCADE,
-        related_name="produits"
+        on_delete=models.CASCADE
     )
+    quantite = models.PositiveIntegerField()
 
     def __str__(self):
-        return f"{self.produit.intituleProd} dans {self.rayon.nomRay}"
+        return f"{self.produit.intituleProd} dans {self.rayon.nomRay} (Quantité: {self.quantite})"
