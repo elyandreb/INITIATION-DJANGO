@@ -46,3 +46,7 @@ class Contenir(models.Model):
 
     def __str__(self):
         return f"{self.produit.intituleProd} dans {self.rayon.nomRay} (Quantité: {self.quantite})"
+
+class Statut(models.Model):
+    idStatut = models.AutoField(primary_key=True)
+    libelle = models.CharField(max_length=100)
