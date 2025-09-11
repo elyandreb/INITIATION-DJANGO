@@ -6,4 +6,7 @@ urlpatterns = [
     path('home/<param>',views.home ,name='home'),
     path("contact/", views.contact, name="contact"),
     path("info/", views.apropos, name="apropos"),
+    path("produits/", views.listeproduits, name="listeproduits"),
+    path("categories/", views.listecat, name="listecat"),
+    path("statuts/", views.listestatut, name="listestatut"),
 ]
