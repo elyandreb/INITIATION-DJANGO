@@ -3,7 +3,12 @@ from .models import Contenir, Produit, Categorie, Statut, Rayon
 
 
 class ProduitAdmin(admin.ModelAdmin):
-    list_display = ('intituleProd', 'prixUnitaireProd')
+    model = Produit
+    list_display = ["refProd", "intituleProd", "prixUnitaireProd", "date_fabrication", "categorie", "statut"]
+    list_editable = ["intituleProd", "prixUnitaireProd", "date_fabrication"]
+    radio_fields = {"statut": admin.VERTICAL}
+    search_fields = ('intituleProd', 'date_fabrication')
+    list_filter = ('statut', 'date_fabrication')
 
 admin.site.register(Produit, ProduitAdmin)
 
