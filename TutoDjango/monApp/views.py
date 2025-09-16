@@ -4,8 +4,8 @@ from django.http import HttpResponse
 from monApp.models import Categorie, Produit, Statut
 
 
-def home(request, param=''):
-    return HttpResponse("<h1>Bonjour "+param+" !</h1>")
+def accueil(request,param):
+    return HttpResponse("<h1>Hello " + param + " ! You're connected</h1>")
 
 def contact(request):
     return HttpResponse("<h1> Contactez nous</h1> <p> Ceci est un test </p>")
