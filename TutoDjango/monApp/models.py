@@ -11,6 +11,9 @@ class Statut(models.Model):
     idStatut = models.AutoField(primary_key=True)
     libelle = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.libelle
+
 class Produit(models.Model):
     refProd = models.AutoField(primary_key=True)
     intituleProd = models.CharField(max_length=200)
