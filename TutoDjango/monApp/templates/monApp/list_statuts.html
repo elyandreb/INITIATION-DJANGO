@@ -1,21 +1,20 @@
 {% extends 'monApp/base.html' %}
-{% block contenu %}
-    <p>Mes statuts sont :</p>
-    <ul>
-        {% for s in stats %}
-            <li>{{ s.libelle | upper }}</li>
-        {% endfor %}
-        </ul>
-        <p>J'ai {{ stats | length }} statuts préférés.</p>
-        <p>
-            J'ai
-            {% if stats|length < 5 %}
-            peu de
-            {% elif stats|length < 10 %}
-            quelques
-            {% else %}
-            beaucoup de
-            {% endif %}
-            statuts préférés.
-        </p>
+{% block menu %}
+<h1>Liste des statuts</h1>
 {% endblock %}
+{% block contenu %}
+<table class="table">
+    <thead>
+        <th>Id</th>
+        <th>Nom statut</th>
+    </thead>
+    <tbody>
+        {% for s in stats %}
+        <tr>
+            <td>{{ s.idStatut }} </td>
+            <td>{{ s.libelle }} </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+        {% endblock %}

@@ -1,21 +1,20 @@
 {% extends 'monApp/base.html' %}
-{% block contenu %}
-        <p>Mes rayons sont :</p>
-        <ul>
-            {% for r in rays %}
-                <li>{{ r.nomRay | upper }}</li>
-            {% endfor %}
-        </ul>
-        <p>J'ai {{ rays | length }} rayons préférés.</p>
-        <p>
-            J'ai
-            {% if rays|length < 5 %}
-            peu de
-            {% elif rays|length < 10 %}
-            quelques
-            {% else %}
-            beaucoup de
-            {% endif %}
-            rayons préférés.
-        </p>
+{% block menu %}
+<h1>Liste des rayons</h1>
 {% endblock %}
+{% block contenu %}
+<table class="table">
+    <thead>
+        <th>Id</th>
+        <th>Nom rayon</th>
+    </thead>
+    <tbody>
+        {% for r in rays %}
+        <tr>
+            <td>{{ r.idRay }} </td>
+            <td>{{ r.nomRay }} </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+        {% endblock %}
