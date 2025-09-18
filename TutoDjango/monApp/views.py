@@ -15,11 +15,7 @@ def apropos(request):
 
 def listeproduits(request):
     prdts = Produit.objects.all()
-    ul = "<ul>"
-    for p in prdts:
-        ul += "<li>" + p.intituleProd + "</li>"
-    ul += "</ul>"
-    return HttpResponse("<h1> Liste des produits </h1>" + ul)
+    return render(request, 'monApp/list_produits.html',{'prdts': prdts})
 
 def listecat(request):
     cats = Categorie.objects.all()
