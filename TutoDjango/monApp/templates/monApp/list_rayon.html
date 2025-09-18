@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <title>Mon app DJANGO</title>
+    </head>
+    <body>
+        <p>Mes rayons sont :</p>
+        <ul>
+            {% for r in rays %}
+                <li>{{ r.nomRay | upper }}</li>
+            {% endfor %}
+        </ul>
+        <p>J'ai {{ rays | length }} rayons préférés.</p>
+        <p>
+            J'ai
+            {% if rays|length < 5 %}
+            peu de
+            {% elif rays|length < 10 %}
+            quelques
+            {% else %}
+            beaucoup de
+            {% endif %}
+            rayons préférés.
+        </p>
+    </body>
+</html>
