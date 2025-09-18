@@ -1,8 +1,5 @@
-<html>
-    <head>
-        <title>Mon app DJANGO</title>
-    </head>
-    <body>
+{% extends 'monApp/base.html' %}
+{% block contenu %}
         <p>Mes catégories sont :</p>
         <ul>
             {% for cat in cats %}
@@ -21,5 +18,4 @@
             {% endif %}
             catégories préférées.
         </p>
-    </body>
-</html>
+{% endblock %}
