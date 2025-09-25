@@ -19,10 +19,23 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
+                    
                     <a class="nav-link d-inline" href="{% url 'lst_prdts' %}">Produits</a>
                     <a class="nav-link d-inline" href="{% url 'lst_cats' %}">Catégories</a>
                     <a class="nav-link d-inline" href="{% url 'lst_stats' %}">Statuts</a>
                     <a class="nav-link d-inline" href="{% url 'lst_rays' %}">Rayons</a>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                        <a class="nav-link d-inline" href="{% url 'logout' %}">Déconnexion</a>
+                        </li>
+                        {%else%}
+                        <li class="nav-item">
+                        <a class="nav-link d-inline" href="{% url 'login' %}">Connexion</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link d-inline" href="{% url 'register' %}">Inscription</a>
+                        </li>
+                    {%endif%}
                 </li>
             </ul>
         </div>
