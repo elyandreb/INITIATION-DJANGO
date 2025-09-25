@@ -1,6 +1,6 @@
 {% extends 'monApp/base.html' %}
 {% block menu %}
-<h1>Liste des rayons</h1>
+<h1>{{ titremenu }}</h1>
 {% endblock %}
 {% block contenu %}
 <table class="table">
@@ -12,7 +12,7 @@
         {% for r in rays %}
         <tr>
             <td>{{ r.idRay }} </td>
-            <td>{{ r.nomRay }} </td>
+            <td><a href="{% url 'dtl_ray' r.idRay %}">{{ r.nomRay }}</a></td>
         </tr>
         {% endfor %}
     </tbody>

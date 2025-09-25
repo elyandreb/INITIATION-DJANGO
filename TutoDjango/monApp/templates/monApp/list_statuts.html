@@ -1,6 +1,6 @@
 {% extends 'monApp/base.html' %}
 {% block menu %}
-<h1>Liste des statuts</h1>
+<h1>{{ titremenu }}</h1>
 {% endblock %}
 {% block contenu %}
 <table class="table">
@@ -12,7 +12,7 @@
         {% for s in stats %}
         <tr>
             <td>{{ s.idStatut }} </td>
-            <td>{{ s.libelle }} </td>
+            <td><a href="{% url 'dtl_statut' s.idStatut %}">{{ s.libelle }}</a></td>
         </tr>
         {% endfor %}
     </tbody>

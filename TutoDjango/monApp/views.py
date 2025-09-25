@@ -13,22 +13,87 @@ def contact(request):
 def apropos(request):
     return render(request, 'monApp/about.html')
 
-def listeproduits(request):
-    prdts = Produit.objects.all()
-    return render(request, 'monApp/list_produits.html',{'prdts': prdts})
+class ProduitListView(ListView):
+    model = Produit
+    template_name = "monApp/list_produits.html"
+    context_object_name = "prdts"
 
-def listecat(request):
-    cats = Categorie.objects.all()
-    return render(request, 'monApp/list_categorie.html',{'cats': cats})
+    def get_queryset(self ) :
+        return Produit.objects.order_by("prixUnitaireProd")
+    
+    def get_context_data(self, **kwargs):
+        context = super(ProduitListView, self).get_context_data(**kwargs)
+        context['titremenu'] = "Liste de mes produits"
+        return context
 
-def listestatut(request):
-    stats = Statut.objects.all()
-    return render(request, 'monApp/list_statuts.html',{'stats': stats})
+class ProduitDetailView(DetailView):
+    model = Produit
+    template_name = "monApp/detail_produit.html"
+    context_object_name = "prdt"
+    def get_context_data(self, **kwargs):
+        context = super(ProduitDetailView, self).get_context_data(**kwargs)
+        context['titremenu'] = "Détail du produit"
+        return context
 
-def listerayons(request):
-    rays = Rayon.objects.all()
-    return render(request, 'monApp/list_rayon.html',{'rays': rays})
+class CategorieListView(ListView):
+    model = Categorie
+    template_name = "monApp/list_categorie.html"
+    context_object_name = "cats"
+    def get_queryset(self ) :
+        return Categorie.objects.order_by("nomCat")
+    def get_context_data(self, **kwargs):
+        context = super(CategorieListView, self).get_context_data(**kwargs)
+        context['titremenu'] = "Liste de mes catégories"
+        return context
+    
+class CategorieDetailView(DetailView):
+    model = Categorie
+    template_name = "monApp/detail_categorie.html"
+    context_object_name = "cat"
+    def get_context_data(self, **kwargs):
+        context = super(CategorieDetailView, self).get_context_data(**kwargs)
+        context['titremenu'] = "Détail de la catégorie"
+        return context
 
+class StatutListView(ListView):
+    model = Statut
+    template_name = "monApp/list_statuts.html"
+    context_object_name = "stats"
+    def get_queryset(self ) :
+        return Statut.objects.order_by("libelle")
+    def get_context_data(self, **kwargs):
+        context = super(StatutListView, self).get_context_data(**kwargs)
+        context['titremenu'] = "Liste de mes statuts"
+        return context
+    
+class StatutDetailView(DetailView):
+    model = Statut
+    template_name = "monApp/detail_statut.html"
+    context_object_name = "stat"
+    def get_context_data(self, **kwargs):
+        context = super(StatutDetailView, self).get_context_data(**kwargs)
+        context['titremenu'] = "Détail du statut"
+        return context
+
+class RayonListView(ListView):
+    model = Rayon
+    template_name = "monApp/list_rayon.html"
+    context_object_name = "rays"
+    def get_queryset(self ) :
+        return Rayon.objects.order_by("nomRay")
+    def get_context_data(self, **kwargs):
+        context = super(RayonListView, self).get_context_data(**kwargs)
+        context['titremenu'] = "Liste de mes rayons"
+        return context
+    
+class RayonDetailView(DetailView):
+    model = Rayon
+    template_name = "monApp/detail_rayon.html"
+    context_object_name = "ray"
+    def get_context_data(self, **kwargs):
+        context = super(RayonDetailView, self).get_context_data(**kwargs)
+        context['titremenu'] = "Détail du rayon"
+        return context
 
 class HomeView(TemplateView):
     template_name = "monApp/page_home.html"

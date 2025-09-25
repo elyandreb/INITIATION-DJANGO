@@ -1,0 +1,14 @@
+{% extends 'monApp/base.html' %}
+
+{% block menu %}
+    <h1>{{ titremenu }}</h1>
+{% endblock %}
+
+{% block contenu %}
+    <h2>Détails de la catégorie</h2>
+    <ul>
+        <li>Id: {{ cat.idCat }}</li>
+        <li>Libellé: {{ cat.nomCat }}</li>
+    </ul>
+    <a href="{% url 'lst_cats' %}">Retour à la liste des catégories</a>
+{% endblock %}
