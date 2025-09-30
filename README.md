@@ -9,3 +9,4 @@
 - Séance 7 : Avancement du TD3 jusqu'à la page 5
 - Séance 8 : Avancement du TD3 jusqu'à la page 13
 - entre séance 8 et 9 : Fin TD3
+- Séance 9 : Avancement TP3 jusqu'à la page 9
