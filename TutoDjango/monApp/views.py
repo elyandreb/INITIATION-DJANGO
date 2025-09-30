@@ -1,4 +1,5 @@
 from urllib import request
+from django.forms import BaseModelForm
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 
@@ -178,12 +179,10 @@ class sentEmailView(TemplateView):
         context['titre1'] = "Email envoyé"
         return context
 
-def ProduitCreate(request):
-    if request.method == 'POST':
-        form = ProduitForm(request.POST)
-        if form.is_valid():
-            prdt = form.save()
-            return redirect('dtl_prdt', prdt.refProd)
-    else:
-        form = ProduitForm()
-        return render(request, "monApp/create_produit.html", {'form': form})
+class ProduitCreateView(CreateView):
+    model = Produit
+    form_class=ProduitForm
+    template_name = "monApp/create_produit.html"
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        prdt = form.save()
+        return redirect('dtl_prdt', prdt.refProd)
