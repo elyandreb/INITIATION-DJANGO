@@ -1,7 +1,8 @@
+from urllib import request
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 
-from monApp.forms import ContactUsForm
+from monApp.forms import ContactUsForm, ProduitForm
 from monApp.models import Categorie, Produit, Rayon, Statut
 from django.views.generic import *
 from django.contrib.auth.views import LoginView
@@ -176,3 +177,13 @@ class sentEmailView(TemplateView):
         context = super(sentEmailView, self).get_context_data(**kwargs)
         context['titre1'] = "Email envoyé"
         return context
+
+def ProduitCreate(request):
+    if request.method == 'POST':
+        form = ProduitForm(request.POST)
+        if form.is_valid():
+            prdt = form.save()
+            return redirect('dtl_prdt', prdt.refProd)
+    else:
+        form = ProduitForm()
+        return render(request, "monApp/create_produit.html", {'form': form})

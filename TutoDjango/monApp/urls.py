@@ -6,6 +6,7 @@ urlpatterns = [
     #path("home/<param>",views.accueil ,name='accueil'),
     path("contact/", views.ContactView, name="contact"),
     path("info/", views.AboutView.as_view(), name="apropos"),
+    path("produit/",views.ProduitCreate , name="crt_prdt"),
     path("produits/", views.ProduitListView.as_view(),name="lst_prdts"),
     path("produit/<pk>/",views.ProduitDetailView.as_view(), name="dtl_prdt"),
     path("categories/", views.CategorieListView.as_view(), name="lst_cats"),
