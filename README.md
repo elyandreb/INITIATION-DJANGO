@@ -8,3 +8,4 @@
 - Séance 6 : Fin TP2
 - Séance 7 : Avancement du TD3 jusqu'à la page 5
 - Séance 8 : Avancement du TD3 jusqu'à la page 13
+- entre séance 8 et 9 : Fin TD3
