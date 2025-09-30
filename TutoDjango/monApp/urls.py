@@ -4,7 +4,7 @@ from django.views.generic import *
 
 urlpatterns = [
     #path("home/<param>",views.accueil ,name='accueil'),
-    path("contact/", views.ContactView.as_view(), name="contact"),
+    path("contact/", views.ContactView, name="contact"),
     path("info/", views.AboutView.as_view(), name="apropos"),
     path("produits/", views.ProduitListView.as_view(),name="lst_prdts"),
     path("produit/<pk>/",views.ProduitDetailView.as_view(), name="dtl_prdt"),
@@ -18,5 +18,6 @@ urlpatterns = [
     path("home/<param>", views.HomeView.as_view()),
     path('login/', views.ConnectView.as_view(), name='login'),
     path('register/', views.RegisterView.as_view(), name='register'),
-    path('logout/', views.DisconnectView.as_view(), name='logout')
+    path('logout/', views.DisconnectView.as_view(), name='logout'),
+    path('envoi_mail/', views.sentEmailView.as_view(), name='email_sent'),
 ]
