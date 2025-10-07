@@ -3,7 +3,7 @@ from django.forms import BaseModelForm
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 
-from monApp.forms import ContactUsForm, ProduitForm
+from monApp.forms import CategorieForm, ContactUsForm, ProduitForm, RayonForm, StatutForm
 from monApp.models import Categorie, Produit, Rayon, Statut
 from django.views.generic import *
 from django.contrib.auth.views import LoginView
@@ -199,3 +199,107 @@ def ProduitUpdate(request, pk):
     else:
         form = ProduitForm(instance=prdt)
     return render(request, 'monApp/update_produit.html', {'form': form})
+
+class ProduitDeleteView(DeleteView):
+    model = Produit
+    template_name = "monApp/delete_produit.html"
+    success_url = "/monApp/produits/"
+    context_object_name = "prdt"
+    def get_context_data(self, **kwargs):
+        context = super(ProduitDeleteView, self).get_context_data(**kwargs)
+        context['titre1'] = "Suppression du produit"
+        return context
+
+class CategorieCreateView(CreateView):
+    model = Categorie
+    form_class=CategorieForm
+    template_name = "monApp/create_categorie.html"
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        cat = form.save()
+        return redirect('dtl_cat', cat.idCat)
+
+def CategorieUpdate(request, pk):
+    cat = Categorie.objects.get(idCat=pk)
+    if request.method == 'POST':
+        form = CategorieForm(request.POST, instance=cat)
+        if form.is_valid():
+            # mettre à jour le produit existant dans la base de données
+            form.save()
+            # rediriger vers la page détaillée du produit que nous venons de mettre à jour
+            return redirect('dtl_cat', cat.idCat)
+    else:
+        form = CategorieForm(instance=cat)
+    return render(request, 'monApp/update_categorie.html', {'form': form})
+
+class CategorieDeleteView(DeleteView):
+    model = Categorie
+    template_name = "monApp/delete_categorie.html"
+    success_url = "/monApp/categories/"
+    context_object_name = "cat"
+    def get_context_data(self, **kwargs):
+        context = super(CategorieDeleteView, self).get_context_data(**kwargs)
+        context['titre1'] = "Suppression de la catégorie"
+        return context
+    
+
+class StatutCreateView(CreateView):
+    model = Statut
+    form_class=StatutForm
+    template_name = "monApp/create_statut.html"
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        stat = form.save()
+        return redirect('dtl_statut', stat.idStatut)
+    
+class StatutUpdate(UpdateView):
+    model = Statut
+    form_class=StatutForm
+    template_name = "monApp/update_statut.html"
+    context_object_name = "stat"
+    def get_context_data(self, **kwargs):
+        context = super(StatutUpdate, self).get_context_data(**kwargs)
+        context['titre1'] = "Modification du statut"
+        return context
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        stat = form.save()
+        return redirect('dtl_statut', stat.idStatut)
+
+class StatutDeleteView(DeleteView):
+    model = Statut
+    template_name = "monApp/delete_statut.html"
+    success_url = "/monApp/statuts/"
+    context_object_name = "stat"
+    def get_context_data(self, **kwargs):
+        context = super(StatutDeleteView, self).get_context_data(**kwargs)
+        context['titre1'] = "Suppression du statut"
+        return context
+    
+class RayonCreateView(CreateView):
+    model = Rayon
+    form_class=RayonForm
+    template_name = "monApp/create_rayon.html"
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        ray = form.save()
+        return redirect('dtl_ray', ray.idRay)
+
+class RayonUpdate(UpdateView):
+    model = Rayon
+    form_class=RayonForm
+    template_name = "monApp/update_rayon.html"
+    context_object_name = "ray"
+    def get_context_data(self, **kwargs):
+        context = super(RayonUpdate, self).get_context_data(**kwargs)
+        context['titre1'] = "Modification du rayon"
+        return context
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        ray = form.save()
+        return redirect('dtl_ray', ray.idRay)
+
+class RayonDeleteView(DeleteView):
+    model = Rayon
+    template_name = "monApp/delete_rayon.html"
+    success_url = "/monApp/rayons/"
+    context_object_name = "ray"
+    def get_context_data(self, **kwargs):
+        context = super(RayonDeleteView, self).get_context_data(**kwargs)
+        context['titre1'] = "Suppression du rayon"
+        return context

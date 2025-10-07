@@ -10,5 +10,7 @@
         <li>Id: {{ ray.idRay }}</li>
         <li>Libellé: {{ ray.nomRay }}</li>
     </ul>
+    <a href="{% url 'ray_chng' ray.idRay %}">modifier</a><br>
+    <a href="{% url 'ray_del' ray.idRay %}">supprimer</a><br>
     <a href="{% url 'lst_rays' %}">Retour à la liste des rayons</a>
 {% endblock %}

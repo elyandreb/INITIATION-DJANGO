@@ -10,5 +10,7 @@
         <li>Id: {{ stat.idStatut }}</li>
         <li>Libellé: {{ stat.libelle }}</li>
     </ul>
+    <a href="{% url 'stat_chng' stat.idStatut %}">modifier</a><br>
+    <a href="{% url 'stat_del' stat.idStatut %}">supprimer</a><br>
     <a href="{% url 'lst_stats' %}">Retour à la liste des statuts</a>
 {% endblock %}

@@ -10,5 +10,7 @@
         <li>Id: {{ cat.idCat }}</li>
         <li>Libellé: {{ cat.nomCat }}</li>
     </ul>
+    <a href="{% url 'cat_chng' cat.idCat %}">modifier</a><br>
+    <a href="{% url 'cat_del' cat.idCat %}">supprimer</a><br>
     <a href="{% url 'lst_cats' %}">Retour à la liste des catégories</a>
 {% endblock %}
