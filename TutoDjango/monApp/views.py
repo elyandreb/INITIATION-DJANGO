@@ -10,6 +10,7 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
+from django.db.models import Count
 
 def accueil(request,param):
     return HttpResponse("<h1>Hello " + param + " ! You're connected</h1>")
@@ -46,8 +47,9 @@ class CategorieListView(ListView):
     model = Categorie
     template_name = "monApp/list_categorie.html"
     context_object_name = "cats"
-    def get_queryset(self ) :
-        return Categorie.objects.order_by("nomCat")
+    def get_queryset(self):
+        # Annoter chaque catégorie avec le nombre de produits liés
+        return Categorie.objects.annotate(produit=Count('produits'))
     def get_context_data(self, **kwargs):
         context = super(CategorieListView, self).get_context_data(**kwargs)
         context['titremenu'] = "Liste de mes catégories"
@@ -57,9 +59,12 @@ class CategorieDetailView(DetailView):
     model = Categorie
     template_name = "monApp/detail_categorie.html"
     context_object_name = "cat"
+    def get_queryset(self):
+        return Categorie.objects.annotate(produit=Count('produits'))
     def get_context_data(self, **kwargs):
         context = super(CategorieDetailView, self).get_context_data(**kwargs)
         context['titremenu'] = "Détail de la catégorie"
+        context['prdts'] = self.object.produits.all()
         return context
 
 class StatutListView(ListView):
@@ -67,7 +72,7 @@ class StatutListView(ListView):
     template_name = "monApp/list_statuts.html"
     context_object_name = "stats"
     def get_queryset(self ) :
-        return Statut.objects.order_by("libelle")
+        return Statut.objects.annotate(prt=Count('produit'))
     def get_context_data(self, **kwargs):
         context = super(StatutListView, self).get_context_data(**kwargs)
         context['titremenu'] = "Liste de mes statuts"
@@ -77,9 +82,12 @@ class StatutDetailView(DetailView):
     model = Statut
     template_name = "monApp/detail_statut.html"
     context_object_name = "stat"
+    def get_queryset(self ) :
+        return Statut.objects.annotate(prt=Count('produit'))
     def get_context_data(self, **kwargs):
         context = super(StatutDetailView, self).get_context_data(**kwargs)
         context['titremenu'] = "Détail du statut"
+        context['prdts'] = self.object.produit.all()
         return context
 
 class RayonListView(ListView):
@@ -91,6 +99,14 @@ class RayonListView(ListView):
     def get_context_data(self, **kwargs):
         context = super(RayonListView, self).get_context_data(**kwargs)
         context['titremenu'] = "Liste de mes rayons"
+        ryns_dt = []
+        for rayon in context['rays']:
+            total = 0
+            for contenir in rayon.contenir_rayon.all():
+                total += contenir.produit.prixUnitaireProd * contenir.quantite
+            ryns_dt.append({'rayon': rayon,'total_stock': total})
+            print (ryns_dt)
+        context['ryns_dt'] = ryns_dt
         return context
     
 class RayonDetailView(DetailView):
@@ -100,6 +116,20 @@ class RayonDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(RayonDetailView, self).get_context_data(**kwargs)
         context['titremenu'] = "Détail du rayon"
+        prdts_dt = []
+        total_rayon = 0
+        total_nb_produit = 0
+        for contenir in self.object.contenir_rayon.all():
+            total_produit = contenir.produit.prixUnitaireProd * contenir.quantite
+            prdts_dt.append({ 'produit': contenir.produit,
+                'quantite': contenir.quantite,
+                'prix_unitaire': contenir.produit.prixUnitaireProd,
+                'total_produit': total_produit} )
+            total_rayon += total_produit
+            total_nb_produit += contenir.quantite
+        context['prdts_dt'] = prdts_dt
+        context['total_rayon'] = total_rayon
+        context['total_nb_produit'] = total_nb_produit
         return context
 
 class HomeView(TemplateView):

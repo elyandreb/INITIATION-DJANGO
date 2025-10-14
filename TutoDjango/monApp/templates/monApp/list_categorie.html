@@ -7,12 +7,16 @@
     <thead>
         <th>Id</th>
         <th>Nom catégorie</th>
+        <th>Nombre de Produits</th>
     </thead>
     <tbody>
         {% for cat in cats %}
         <tr>
             <td>{{ cat.idCat }} </td>
             <td><a href="{% url 'dtl_cat' cat.idCat %}">{{ cat.nomCat }}</a></td>
+            <td>{{ cat.produit }} </td>
+            <td><a href="{% url 'cat_chng' cat.idCat %}">modifier</a></td>
+            <td><a href="{% url 'cat_del' cat.idCat %}">supprimer</a></td>
         </tr>
         {% endfor %}
     </tbody>

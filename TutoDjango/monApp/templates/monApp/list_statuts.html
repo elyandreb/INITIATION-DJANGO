@@ -7,12 +7,16 @@
     <thead>
         <th>Id</th>
         <th>Nom statut</th>
+        <th>Nombre de Produits</th>
     </thead>
     <tbody>
         {% for s in stats %}
         <tr>
             <td>{{ s.idStatut }} </td>
             <td><a href="{% url 'dtl_statut' s.idStatut %}">{{ s.libelle }}</a></td>
+            <td>{{ s.prt }} </td>
+            <td><a href="{% url 'stat_chng' s.idStatut %}">modifier</a></td>
+            <td><a href="{% url 'stat_del' s.idStatut %}">supprimer</a></td>
         </tr>
         {% endfor %}
     </tbody>

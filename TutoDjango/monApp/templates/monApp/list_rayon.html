@@ -7,12 +7,19 @@
     <thead>
         <th>Id</th>
         <th>Nom rayon</th>
+        <th>Valeur marchande du rayon</th>
     </thead>
     <tbody>
-        {% for r in rays %}
+        {% for data in ryns_dt %}
         <tr>
-            <td>{{ r.idRay }} </td>
-            <td><a href="{% url 'dtl_ray' r.idRay %}">{{ r.nomRay }}</a></td>
+            <td><a href="{% url 'dtl_ray' data.rayon.pk %}">{{ data.rayon.pk }}</a></td>
+            <td>{{ data.rayon.nomRay }}</td>
+            <td>{{ data.total_stock }}</td>
+            <td>
+                <a href="{% url 'dtl_ray' data.rayon.pk %}" class="btn btn-info">détails</a>
+                <a href="{% url 'ray_chng' data.rayon.pk %}" class="btn btn-warning">modifier</a>
+                <a href="{% url 'ray_del' data.rayon.pk %}" class="btn btn-danger">supprimer</a>
+            </td>
         </tr>
         {% endfor %}
     </tbody>

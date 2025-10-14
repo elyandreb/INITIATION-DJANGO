@@ -29,9 +29,16 @@ class Produit(models.Model):
     )
     date_fabrication = models.DateField(null=True, blank=True)
 
+    rayons = models.ManyToManyField(
+        'Rayon',
+        through='Contenir',
+        related_name='produits_rayons'
+    )
+
     statut = models.ForeignKey(
         Statut,
         on_delete=models.CASCADE,
+        related_name="produit",
         null=True,
         blank=True
     )
@@ -50,13 +57,15 @@ class Contenir(models.Model):
     pk = models.CompositePrimaryKey("produit", "rayon")
     produit = models.ForeignKey(
         Produit,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name="contenir_produit"
     )
     rayon = models.ForeignKey(
         Rayon,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name="contenir_rayon"
     )
-    quantite = models.PositiveIntegerField()
+    quantite = models.PositiveIntegerField(default=1)
 
     def __str__(self):
         return f"{self.produit.intituleProd} dans {self.rayon.nomRay} (Quantité: {self.quantite})"
