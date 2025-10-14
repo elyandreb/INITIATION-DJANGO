@@ -12,3 +12,4 @@
 - Séance 9 : Avancement TP3 jusqu'à la page 9
 - entre séance 9 et 10 : Fin TP3
 - Séance 10 : Affichage du prix total d'un rayon intégré
+- Séance 11 : Ajout de produits dans un rayon
