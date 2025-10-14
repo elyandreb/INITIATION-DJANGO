@@ -30,9 +30,11 @@ class ProduitListView(ListView):
     context_object_name = "prdts"
 
     def get_queryset(self):
-        # Charge les catégories et les statuts en même temps
-        return Produit.objects.select_related('categorie').select_related('statut')
-    
+        query = self.request.GET.get('search')
+        if query:
+            return Produit.objects.filter(intituleProd__icontains=query).select_related('categorie').select_related('statut')
+        return Produit.objects.all().select_related('categorie').select_related('statut')
+
     def get_context_data(self, **kwargs):
         context = super(ProduitListView, self).get_context_data(**kwargs)
         context['titremenu'] = "Liste de mes produits"
@@ -52,7 +54,9 @@ class CategorieListView(ListView):
     template_name = "monApp/list_categorie.html"
     context_object_name = "cats"
     def get_queryset(self):
-        # Annoter chaque catégorie avec le nombre de produits liés
+        query = self.request.GET.get('search')
+        if query:
+            return Categorie.objects.filter(nomCat__icontains=query).annotate(produit=Count('produits'))
         return Categorie.objects.annotate(produit=Count('produits'))
     def get_context_data(self, **kwargs):
         context = super(CategorieListView, self).get_context_data(**kwargs)
@@ -75,7 +79,10 @@ class StatutListView(ListView):
     model = Statut
     template_name = "monApp/list_statuts.html"
     context_object_name = "stats"
-    def get_queryset(self ) :
+    def get_queryset(self):
+        query = self.request.GET.get('search')
+        if query:
+            return Statut.objects.filter(libelle__icontains=query).annotate(prt=Count('produit'))
         return Statut.objects.annotate(prt=Count('produit'))
     def get_context_data(self, **kwargs):
         context = super(StatutListView, self).get_context_data(**kwargs)
@@ -99,10 +106,13 @@ class RayonListView(ListView):
     template_name = "monApp/list_rayon.html"
     context_object_name = "rays"
     def get_queryset(self):
-        # Précharge tous les "contenir" de chaque rayon,
-        # et en même temps le produit de chaque contenir
-        return Rayon.objects.prefetch_related(
-        Prefetch("contenir_rayon", queryset=Contenir.objects.select_related("produit"))
+        query = self.request.GET.get('search')
+        if query:
+            return Rayon.objects.filter(nomRay__icontains=query).prefetch_related(
+                Prefetch('contenir_rayon', queryset=Contenir.objects.select_related('produit'))
+            )
+        return Rayon.objects.all().prefetch_related(
+            Prefetch('contenir_rayon', queryset=Contenir.objects.select_related('produit'))
         )
     def get_context_data(self, **kwargs):
         context = super(RayonListView, self).get_context_data(**kwargs)
