@@ -23,6 +23,7 @@
         <h4>Ce rayon contient <strong> {{total_nb_produit}} </strong> produit(s) pour un total de
             <strong>{{total_rayon|floatformat:2 }} € </strong>
         </h4>
+        <a href="{% url 'cntnr-crt' ray.idRay %}" class="btn btn-success mt-2">Ajouter un produit</a>
     </div>
     <div class="card-body">
         <div class="row">
@@ -36,7 +37,7 @@
                     <div class="card-body">
                         <ul class="list-unstyled">
                             <li>Prix unitaire : {{data.prix_unitaire }} € </li>
-                            <li>Quantité : {{data.qte }} </li>
+                            <li>Quantité : {{data.quantite }} </li>
                             <li>Total : {{ data.total_produit}} €</li>
                         </ul>
                         <a href="{% url 'dtl_prdt' data.produit.refProd %}" class="btn btn-primary mt-2">Détails</a>
@@ -44,7 +45,9 @@
                 </div>
             </div>
             {% endfor %}
-        </div {% else %} <p class="text-muted">Aucun produit trouvé pour cette catégorie.</p>
+        </div>
+        {% else %}
+        <p class="text-muted">Aucun produit trouvé pour cette catégorie.</p>
         {% endif %}
     </div>
 </div>

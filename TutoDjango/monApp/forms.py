@@ -1,6 +1,6 @@
 from django import forms
 
-from monApp.models import Categorie, Produit, Statut, Rayon
+from monApp.models import Categorie, Contenir, Produit, Statut, Rayon
 
 class ContactUsForm(forms.Form):
     name = forms.CharField(required=False)
@@ -27,3 +27,8 @@ class RayonForm(forms.ModelForm):
     class Meta:
         model = Rayon
         fields = ['nomRay']
+
+class ContenirForm(forms.ModelForm):
+    class Meta:
+        model = Contenir
+        fields = ['produit', 'quantite']

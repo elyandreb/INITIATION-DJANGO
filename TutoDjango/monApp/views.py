@@ -3,7 +3,7 @@ from django.forms import BaseModelForm
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 
-from monApp.forms import CategorieForm, ContactUsForm, ProduitForm, RayonForm, StatutForm
+from monApp.forms import CategorieForm, ContactUsForm, ContenirForm, ProduitForm, RayonForm, StatutForm
 from monApp.models import Categorie, Contenir, Produit, Rayon, Statut
 from django.views.generic import *
 from django.contrib.auth.views import LoginView
@@ -362,4 +362,19 @@ class RayonDeleteView(DeleteView):
     def get_context_data(self, **kwargs):
         context = super(RayonDeleteView, self).get_context_data(**kwargs)
         context['titre1'] = "Suppression du rayon"
+        return context
+    
+@method_decorator(login_required, name='dispatch')
+class ContenirCreateView(CreateView):
+    model = Contenir
+    form_class=ContenirForm
+    template_name = "monApp/create_contenir.html"
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        form.instance.rayon = Rayon.objects.get(idRay=self.kwargs.get('pk'))
+        cntn = form.save()
+        return redirect('dtl_ray', cntn.rayon.idRay)
+    def get_context_data(self, **kwargs):
+        context = super(ContenirCreateView, self).get_context_data(**kwargs)
+        context['titre1'] = "Ajouter un produit au rayon"
+        context['rayon'] = Rayon.objects.get(idRay=self.kwargs.get('pk'))
         return context

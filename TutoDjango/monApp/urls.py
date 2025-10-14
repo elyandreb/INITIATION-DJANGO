@@ -32,4 +32,5 @@ urlpatterns = [
     path('register/', views.RegisterView.as_view(), name='register'),
     path('logout/', views.DisconnectView.as_view(), name='logout'),
     path('envoi_mail/', views.sentEmailView.as_view(), name='email_sent'),
+    path('rayon/<pk>/cntnr', views.ContenirCreateView.as_view(), name='cntnr-crt')
 ]
