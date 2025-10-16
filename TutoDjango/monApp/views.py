@@ -1,6 +1,6 @@
 from urllib import request
 from django.forms import BaseModelForm
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponse
 
 from monApp.forms import CategorieForm, ContactUsForm, ContenirForm, ProduitForm, RayonForm, StatutForm, contenirUpdateForm
@@ -272,7 +272,7 @@ class CategorieCreateView(CreateView):
 
 @login_required
 def CategorieUpdate(request, pk):
-    cat = Categorie.objects.get(idCat=pk)
+    cat = get_object_or_404(Categorie, idCat=pk)
     if request.method == 'POST':
         form = CategorieForm(request.POST, instance=cat)
         if form.is_valid():
