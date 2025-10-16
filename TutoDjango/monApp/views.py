@@ -3,7 +3,7 @@ from django.forms import BaseModelForm
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 
-from monApp.forms import CategorieForm, ContactUsForm, ContenirForm, ProduitForm, RayonForm, StatutForm
+from monApp.forms import CategorieForm, ContactUsForm, ContenirForm, ProduitForm, RayonForm, StatutForm, contenirUpdateForm
 from monApp.models import Categorie, Contenir, Produit, Rayon, Statut
 from django.views.generic import *
 from django.contrib.auth.views import LoginView
@@ -371,6 +371,12 @@ class ContenirCreateView(CreateView):
     template_name = "monApp/create_contenir.html"
     def form_valid(self, form: BaseModelForm) -> HttpResponse:
         form.instance.rayon = Rayon.objects.get(idRay=self.kwargs.get('pk'))
+        if quantite:= form.cleaned_data.get('quantite', 0) < 1:
+            form.add_error('quantite', 'La quantité doit être au moins de 1')
+            return self.form_invalid(form)
+        if Contenir.objects.filter(produit=form.instance.produit, rayon=form.instance.rayon).exists():
+            form.add_error('produit', 'Le produit est déjà dans ce rayon')
+            return self.form_invalid(form)
         cntn = form.save()
         return redirect('dtl_ray', cntn.rayon.idRay)
     def get_context_data(self, **kwargs):
@@ -378,3 +384,30 @@ class ContenirCreateView(CreateView):
         context['titre1'] = "Ajouter un produit au rayon"
         context['rayon'] = Rayon.objects.get(idRay=self.kwargs.get('pk'))
         return context
+    
+@login_required
+def ContenirUpdate(request, produit_id, rayon_id):
+    cntn = Contenir.objects.get(produit_id=produit_id, rayon_id=rayon_id)
+    if request.method == 'POST':
+        form = contenirUpdateForm(request.POST, instance=cntn)
+        if form.is_valid():
+            if quantite:= form.cleaned_data.get('quantite', 0) < 1:
+                rayon_id = cntn.rayon.idRay
+                cntn.delete()
+                return redirect('dtl_ray', rayon_id)
+            # mettre à jour le contenir existant dans la base de données
+            form.save()
+            # rediriger vers la page détaillée du rayon que nous venons de mettre à jour
+            return redirect('dtl_ray', cntn.rayon.idRay)
+    else:
+        form = contenirUpdateForm(instance=cntn)
+    return render(request, 'monApp/update_contenir.html', {'form': form, 'rayon': cntn.rayon})
+
+@login_required
+def ContenirDeleteView(request, produit_id, rayon_id):
+    cntn = Contenir.objects.get(produit_id=produit_id, rayon_id=rayon_id)
+    if request.method == 'POST':
+        rayon_id = cntn.rayon.idRay
+        cntn.delete()
+        return redirect('dtl_ray', rayon_id)
+    return render(request, 'monApp/delete_contenir.html', {'cntn': cntn})

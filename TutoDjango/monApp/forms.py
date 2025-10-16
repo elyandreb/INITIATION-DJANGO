@@ -32,3 +32,9 @@ class ContenirForm(forms.ModelForm):
     class Meta:
         model = Contenir
         fields = ['produit', 'quantite']
+
+class contenirUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Contenir
+        quantite = forms.IntegerField(min_value=1)
+        fields = ['quantite']

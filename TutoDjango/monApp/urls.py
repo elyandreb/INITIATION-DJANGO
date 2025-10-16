@@ -32,5 +32,7 @@ urlpatterns = [
     path('register/', views.RegisterView.as_view(), name='register'),
     path('logout/', views.DisconnectView.as_view(), name='logout'),
     path('envoi_mail/', views.sentEmailView.as_view(), name='email_sent'),
-    path('rayon/<pk>/cntnr', views.ContenirCreateView.as_view(), name='cntnr-crt')
+    path('rayon/<pk>/cntnr', views.ContenirCreateView.as_view(), name='cntnr-crt'),
+    path('contenir/<int:produit_id>/<int:rayon_id>/update', views.ContenirUpdate, name='cntnr-upd'),
+    path('contenir/<int:produit_id>/<int:rayon_id>/delete', views.ContenirDeleteView, name='cntnr-del'),
 ]

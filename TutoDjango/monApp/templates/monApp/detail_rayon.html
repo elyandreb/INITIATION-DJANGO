@@ -41,6 +41,8 @@
                             <li>Total : {{ data.total_produit}} €</li>
                         </ul>
                         <a href="{% url 'dtl_prdt' data.produit.refProd %}" class="btn btn-primary mt-2">Détails</a>
+                        <a href="{% url 'cntnr-upd' data.produit.refProd ray.idRay %}" class="btn btn-warning mt-2">Modifier</a>
+                        <a href="{% url 'cntnr-del' data.produit.refProd ray.idRay %}" class="btn btn-danger mt-2">Supprimer</a>
                     </div>
                 </div>
             </div>
