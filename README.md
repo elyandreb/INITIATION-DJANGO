@@ -13,3 +13,4 @@
 - entre séance 9 et 10 : Fin TP3
 - Séance 10 : Affichage du prix total d'un rayon intégré
 - Séance 11 : Ajout de produits dans un rayon
+- Séance 12 : Ajout des fonctionnalités de mise à jour et de suppression pour les produits dans un rayon
